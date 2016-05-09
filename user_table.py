@@ -18,6 +18,11 @@ class UserTable:
 				'name'						:			'pk_id',
 				'type'						:			'PRIMARY KEY',
 				'columns'					:			['id']
+			},
+			{		
+				'name'						:			'uq_telegram_id',
+				'type'						:			'UNIQUE',
+				'columns'					:			['telegram_id']
 			}
 		]
 	}
