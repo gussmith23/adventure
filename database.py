@@ -17,11 +17,11 @@ class Database:
 	
 		# create table objects
 		self.tables = {
-			'character' 		: 	CharacterTable(),
-			'stat'					:		StatTable(),
-			'stat_type'			:		StatTypeTable(),
-			'game'					:		GameTable(),
-			'user'					:		UserTable()			
+			'character' 		: 	CharacterTable(self),
+			'stat'					:		StatTable(self),
+			'stat_type'			:		StatTypeTable(self),
+			'game'					:		GameTable(self),
+			'user'					:		UserTable(self)			
 		}
 				
 		self.q = queue.Queue()
