@@ -51,7 +51,7 @@ class Database:
 	# to get the return of the query, the user should block (while len(query[2]) == 0: pass) 
 	# TODO i don't like this structure; second and third shouldn't be required
 	#	TODO this whole thing should be done with concurrent.futures
-	def add_query(query):
+	def add_query(self, query):
 		self.q.put(query)
 		
 	def worker(self,db_path):
