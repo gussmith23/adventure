@@ -20,30 +20,7 @@ class Database:
 		t = threading.Thread(target = self.worker, args=(db_path,))
 		t.daemon = True			# allows it to die with main thread
 		t.start()
-				
-	def adduser(self, userid, username, startingrep):
-		
-		added = False
-		
-		returnlist = []
-		
-		query = ("INSERT INTO users (user_id, reputation, username, time_joined) VALUES (?,?,?,?)", 
-							(userid, startingrep, username, int(time.time())),
-							returnlist)
-							
-		self.q.put(query)
-		
-		# block until worker processes our query.
-		while len(returnlist) == 0:
-			pass
-			
-		if returnlist[0] == False:
-			added = False
-		else:
-			added = True
-			
-		return added	
-	
+					
 	# query structure will be a tuple with the following items:
 	# first, a string query (required)
 	# second, a tuple of fill-in arguments for the query (required, can be empty)
