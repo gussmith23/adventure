@@ -9,8 +9,17 @@ class CharacterTable:
 			{
 				'column_name' : 'owner_id',
 				'datatype' : 'INTEGER'
-			}
+			},		
+			{		
+				'column_name' 		:	 		'id',
+				'datatype' 				: 		'INTEGER'
+			}	
 		],
 		'constraints' : [
+			{		
+				'name':									'pk_id',
+				'type':									'PRIMARY KEY',
+				'columns':							['id']
+			}
 		]
 	}
