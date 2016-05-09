@@ -1,6 +1,6 @@
 class CharacterTable:
 	schema = {
-		'name' : 'characters',
+		'name' : 'character',
 		'columns' : [
 			{
 				'column_name' :  'name',
