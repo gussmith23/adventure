@@ -31,6 +31,13 @@ class StatTable:
 				'columns'					:			['character_id'],
 				'foreign-table'		:			'character',
 				'foreign-columns'	:			['id']
+			},		
+			{		
+				'name'						:			'fk_game',
+				'type'						:			'FOREIGN KEY',
+				'columns'					:			['game_id'],
+				'foreign-table'		:			'game',
+				'foreign-columns'	:			['id']
 			}
 		]
 	}
