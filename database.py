@@ -9,10 +9,20 @@ from character_table import CharacterTable
 from stat_type_table import StatTypeTable
 from stat_table import StatTable
 from game_table	import GameTable
+from user_table import UserTable
 
 class Database:
 
 	def __init__(self, db_path):
+	
+		# create table objects
+		self.tables = {
+			'character' 		: 	CharacterTable(),
+			'stat'					:		StatTable(),
+			'stat_type'			:		StatTypeTable(),
+			'game'					:		GameTable(),
+			'user'					:		UserTable()			
+		}
 				
 		self.q = queue.Queue()
 		
@@ -49,7 +59,7 @@ class Database:
 								"CONSTRAINT users_pk PRIMARY KEY (user_id))")"""
 								
 		# create tables
-		for table in [CharacterTable, StatTypeTable, StatTable, GameTable]:
+		for table in list(self.tables.values()):
 
 			columns_string = \
 				", ".join(["{} {} {}".format(a['column_name'], a['datatype'], a['null'] if 'null' in a.keys() else 'NULL')\
@@ -60,32 +70,22 @@ class Database:
 			
 			for constraint in table.schema['constraints']:
 				# (add a space at the start to be safe)
-				constraint_str = " "	
-				constraint_str += "CONSTRAINT " + constraint['name'] + " "	
-				constraint_str += constraint['type'] + " "				
+				constraint_str = " CONSTRAINT " + constraint['name'] + " " + constraint['type'] + " "				
 				if constraint['type'] == "PRIMARY KEY":
-					constraint_str += " ( "
-					constraint_str += ", ".join(constraint['columns'])
-					constraint_str += " ) "
+					constraint_str += " ( " + ", ".join(constraint['columns']) + " ) "
 				elif constraint['type'] == "FOREIGN KEY":	
-					constraint_str += " ( "
-					constraint_str += ", ".join(constraint['columns'])
-					constraint_str += " ) "
+					constraint_str += " ( " + ", ".join(constraint['columns']) + " ) "
 					constraint_str += "REFERENCES " + constraint['foreign-table'] + " "
-					constraint_str += " ( "
-					constraint_str += ", ".join(constraint['foreign-columns'])
-					constraint_str += " ) "
+					constraint_str += " ( " + ", ".join(constraint['foreign-columns']) + " ) "
 				constraints.append(constraint_str)
-				print(constraints)
+			
 			if len(constraints) is not 0:
 				constraints_str += " , "
 				constraints_str += ", ".join(constraints)
 
 			create_table_query = "CREATE TABLE IF NOT EXISTS " + table.schema['name']	+ " (" + columns_string + constraints_str + ")"
-			print("creating table with query " + create_table_query)
 			cur.execute(create_table_query)					
 			
-		
 		# don't forget to commit!
 		self.conn.commit()
 		
