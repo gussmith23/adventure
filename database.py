@@ -43,6 +43,16 @@ class Database:
 			added = True
 			
 		return added	
+	
+	# query structure will be a tuple with the following items:
+	# first, a string query (required)
+	# second, a tuple of fill-in arguments for the query (required, can be empty)
+	# third, an empty list for getting return values. (required even if no returns given)
+	# to get the return of the query, the user should block (while len(query[2]) == 0: pass) 
+	# TODO i don't like this structure; second and third shouldn't be required
+	#	TODO this whole thing should be done with concurrent.futures
+	def add_query(query):
+		self.q.put(query)
 		
 	def worker(self,db_path):
 	
@@ -105,12 +115,6 @@ class Database:
 		while True:
 			query = self.q.get()
 			if query is None: continue
-			
-			# query structure will be a tuple with the following items:
-			# first, a string query (required)
-			# second, a tuple of fill-in arguments for the query (required, can be empty)
-			# third, an empty list for getting return values. (required even if no returns given)
-			# TODO i don't like this structure; second and third shouldn't be required
 			
 			cur = self.conn.cursor()
 			
