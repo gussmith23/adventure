@@ -4,23 +4,23 @@ class StatTypeTable:
 		'columns' : [
 			{
 				'column_name' :  		'name',
-				'datatype' : 				'VARCHAR(255)'
+				'datatype' 		: 		'VARCHAR(255)'
 			},
 			{
 				'column_name' : 		'game_id',
-				'datatype' : 				'INTEGER'
+				'datatype' 		: 		'INTEGER'
 			},
 			{
 				'column_name' :	 		'id',
-				'datatype' : 				'INTEGER',
+				'datatype' 		:			'INTEGER',
 				'null'				:			'NOT NULL'
 			}
 		],
 		'constraints' : [
 			{
-				'name':							'pk_id',
-				'type':							'PRIMARY KEY',
-				'columns':					['id']
+				'name'				:			'pk_id',
+				'type'				:			'PRIMARY KEY',
+				'columns'			:			['id']
 			}
 		]
 	}
