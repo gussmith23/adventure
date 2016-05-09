@@ -3,9 +3,12 @@ import os
 import time
 import queue
 import threading
+
+# database table classes
 from character_table import CharacterTable
 from stat_type_table import StatTypeTable
 from stat_table import StatTable
+from game_table	import GameTable
 
 class Database:
 
@@ -59,7 +62,7 @@ class Database:
 								"CONSTRAINT users_pk PRIMARY KEY (user_id))")"""
 								
 		# create tables
-		for table in [CharacterTable, StatTypeTable, StatTable]:
+		for table in [CharacterTable, StatTypeTable, StatTable, GameTable]:
 
 			columns_string = \
 				", ".join(["{} {} {}".format(a['column_name'], a['datatype'], a['null'] if 'null' in a.keys() else 'NULL')\
