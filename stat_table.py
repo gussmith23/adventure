@@ -1,6 +1,6 @@
 class StatTable:
 	schema = {
-		'name' : 'stat_type',
+		'name' : 'stat',
 		'columns' : [
 			{
 				'column_name'			:			'value',
