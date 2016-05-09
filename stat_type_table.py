@@ -12,7 +12,8 @@ class StatTypeTable:
 			},
 			{
 				'column_name' :	 		'id',
-				'datatype' : 				'INTEGER'
+				'datatype' : 				'INTEGER',
+				'null'				:			'NOT NULL'
 			}
 		],
 		'constraints' : [
