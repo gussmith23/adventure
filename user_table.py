@@ -21,3 +21,14 @@ class UserTable:
 			}
 		]
 	}
+	
+	def __init__(self, db):
+		self.db = db
+	
+	def add_user(self, telegram_id):
+		query_str = "INSERT INTO user (telegram_id) VALUES (?)"
+		query_args = [telegram_id]
+		return_list = []
+		self.db.add_query( (query_str, query_args, return_list) )
+		while len(return_list) == 0: pass
+		return return_list[0] is not False
