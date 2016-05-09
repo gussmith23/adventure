@@ -4,6 +4,7 @@ import time
 import queue
 import threading
 from character_table import CharacterTable
+from stat_type_table import StatTypeTable
 
 class Database:
 
@@ -57,11 +58,31 @@ class Database:
 								"CONSTRAINT users_pk PRIMARY KEY (user_id))")"""
 								
 		# create tables
-		for table in [CharacterTable]:
+		for table in [CharacterTable, StatTypeTable]:
+
 			columns_string = \
 				", ".join(["{} {} {}".format(a['column_name'], a['datatype'], a['null'] if 'null' in a.keys() else 'NULL')\
 										for a in table.schema['columns']])
-			create_table_query = "CREATE TABLE IF NOT EXISTS " + table.schema['name']	+ " (" + columns_string + ")"
+										
+			constraints = []
+			constraints_str = ""
+			
+			for constraint in table.schema['constraints']:
+				if constraint['type'] == "PRIMARY KEY":
+					# (add a space at the start to be safe)
+					constraint_str = " "
+					constraint_str += "CONSTRAINT " + constraint['name'] + " "
+					constraint_str += constraint['type'] + " "
+					constraint_str += " ( "
+					constraint_str += ", ".join(constraint['columns'])
+					constraint_str += " ) "
+					constraints.append(constraint_str)
+			
+			if len(constraints) is not 0:
+				constraints_str += " , "
+				constraints_str += ", ".join(constraints)
+
+			create_table_query = "CREATE TABLE IF NOT EXISTS " + table.schema['name']	+ " (" + columns_string + constraints_str + ")"
 			print("creating table with query " + create_table_query)
 			cur.execute(create_table_query)					
 			
