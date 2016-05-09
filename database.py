@@ -71,7 +71,7 @@ class Database:
 			for constraint in table.schema['constraints']:
 				# (add a space at the start to be safe)
 				constraint_str = " CONSTRAINT " + constraint['name'] + " " + constraint['type'] + " "				
-				if constraint['type'] == "PRIMARY KEY":
+				if constraint['type'] == "PRIMARY KEY" or constraint['type'] == "UNIQUE":
 					constraint_str += " ( " + ", ".join(constraint['columns']) + " ) "
 				elif constraint['type'] == "FOREIGN KEY":	
 					constraint_str += " ( " + ", ".join(constraint['columns']) + " ) "
