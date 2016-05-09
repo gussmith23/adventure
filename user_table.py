@@ -15,9 +15,9 @@ class UserTable:
 		],
 		'constraints' : [
 			{		
-				'name':									'pk_id',
-				'type':									'PRIMARY KEY',
-				'columns':							['id']
+				'name'						:			'pk_id',
+				'type'						:			'PRIMARY KEY',
+				'columns'					:			['id']
 			}
 		]
 	}

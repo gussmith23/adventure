@@ -3,8 +3,8 @@ class CharacterTable:
 		'name' : 'character',
 		'columns' : [
 			{
-				'column_name' :  'name',
-				'datatype' : 'VARCHAR(255)'
+				'column_name' 		:  		'name',
+				'datatype' 				: 		'VARCHAR(255)'
 			},
 			{
 				'column_name' 		: 		'owner_id',
@@ -19,9 +19,9 @@ class CharacterTable:
 		],
 		'constraints' : [
 			{		
-				'name':									'pk_id',
-				'type':									'PRIMARY KEY',
-				'columns':							['id']
+				'name'						:			'pk_id',
+				'type'						:			'PRIMARY KEY',
+				'columns'					:			['id']
 			},
 			{		
 				'name'						:			'fk_owner',
