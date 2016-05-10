@@ -37,3 +37,14 @@ class UserTable:
 		self.db.add_query( (query_str, query_args, return_list) )
 		while len(return_list) == 0: pass
 		return return_list[0] is not False
+		
+	def user_exists(self, telegram_id):
+		query_str = "SELECT * FROM user WHERE telegram_id == ?"
+		query_args = [telegram_id]
+		return_list = []
+		self.db.add_query( (query_str, query_args, return_list) )
+		while len(return_list) == 0: pass
+		return bool(return_list[0])
+		
+		
+	
