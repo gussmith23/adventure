@@ -7,6 +7,11 @@ class CharacterTable:
 				'datatype' 				: 		'VARCHAR(255)'
 			},
 			{
+				'column_name'			:			'description',
+				'datatype'				:			'TEXT',
+				'null'						:			'NULL'
+			},
+			{
 				'column_name' 		: 		'owner_id',
 				'datatype' 				: 		'INTEGER',
 				'null'						: 		'NOT NULL'
