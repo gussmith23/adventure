@@ -45,6 +45,17 @@ class CharacterTable:
 	def __init__(self, db):
 		self._db = db
 		
-	def get_character(id = -1):
+	def get_character(self, id = -1):
 		if id is not -1:
 			pass
+	
+	def add_character(self, fields = None, stats = None, inventory = None):
+		if fields is not None:
+			query = "INSERT INTO {} ({}) VALUES ({})"\
+				.format(self.schema['name'],
+					", ".join(fields.keys()),
+					("?,"* len(fields))[:-1])
+			return_list = []
+			self._db.add_query( (query, tuple(fields.values()), return_list) )
+			while len(return_list) == 0: pass
+			return return_list
