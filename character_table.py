@@ -39,7 +39,7 @@ class CharacterTable:
 	}
 	
 	def __init__(self, db):
-		self.db = db
+		self._db = db
 		
 	def get_character(id = -1):
 		if id is not -1:
