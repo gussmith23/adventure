@@ -1,23 +1,27 @@
 class CharacterTable:
+	NAME_COLUMN_KEY 	= 'name'
+	DESC_COLUMN_KEY		= 'description'
+	OWNER_COLUMN_KEY	= 'owner_id'
+	ID_COLUMN_KEY 		= 'id'
 	schema = {
 		'name' : 'character',
 		'columns' : [
 			{
-				'column_name' 		:  		'name',
+				'column_name' 		:  		NAME_COLUMN_KEY,
 				'datatype' 				: 		'VARCHAR(255)'
 			},
 			{
-				'column_name'			:			'description',
+				'column_name'			:			DESC_COLUMN_KEY,
 				'datatype'				:			'TEXT',
 				'null'						:			'NULL'
 			},
 			{
-				'column_name' 		: 		'owner_id',
+				'column_name' 		: 		OWNER_COLUMN_KEY,
 				'datatype' 				: 		'INTEGER',
 				'null'						: 		'NOT NULL'
 			},		
 			{		
-				'column_name' 		:	 		'id',
+				'column_name' 		:	 		ID_COLUMN_KEY,
 				'datatype' 				: 		'INTEGER',
 				'null'						:			'NOT NULL'
 			}	
