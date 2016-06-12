@@ -1,6 +1,6 @@
 class ChatGameTable:
 	CHAT_ID_COLUMN_KEY	= 'chat_id'
-	GAME_ID_COLUMN_KEY 		= 'id'
+	GAME_ID_COLUMN_KEY 		= 'game_id'
 	schema = {
 		'name' : 'chat_game',
 		'columns' : [
