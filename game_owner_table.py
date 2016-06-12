@@ -5,7 +5,7 @@ class GameOwnerTable:
 		'name' : 'game_owner',
 		'columns' : [
 			{
-				'column_name' 		: 		CHAT_ID_COLUMN_KEY,
+				'column_name' 		: 		OWNER_ID_COLUMN_KEY,
 				'datatype' 				: 		'INTEGER',
 				'null'						: 		'NOT NULL'
 			},		
