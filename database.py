@@ -10,6 +10,9 @@ from stat_type_table import StatTypeTable
 from stat_table import StatTable
 from game_table	import GameTable
 from user_table import UserTable
+from chat_table import ChatTable
+from chat_game_table import ChatGameTable
+from game_owner_table import GameOwnerTable
 
 class Database:
 
@@ -21,7 +24,10 @@ class Database:
 			'stat'					:		StatTable(self),
 			'stat_type'			:		StatTypeTable(self),
 			'game'					:		GameTable(self),
-			'user'					:		UserTable(self)			
+			'user'					:		UserTable(self),
+			'chat'					:		ChatTable(self),
+			'chat_game'			: 	ChatGameTable(self),
+			'game_owner'		:		GameOwnerTable(self),
 		}
 				
 		self.q = queue.Queue()
