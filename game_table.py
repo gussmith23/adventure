@@ -18,7 +18,7 @@ class GameTable:
 	}
 	
 	def __init__(self, db):
-		self.db = db
+		self._db = db
 		
 	def add_game(self, fields):
 		pass
