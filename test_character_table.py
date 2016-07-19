@@ -20,3 +20,22 @@ class TestCharacterTable(unittest.TestCase):
 		
 		# assert
 		self.assertEqual(fields_in, fields_out)
+		
+	def test_update_character_not_exists(self):
+		# act
+		out = self.table.update_character(-100, desc = "blah")
+		
+		# assert
+		self.assertFalse(out)
+		
+	def test_update_character(self):
+		# arrange
+		fields_in = {'id' : 1, 'name' : 'gus', 'description' : 'lafefawefawef', 'owner_id' : 23}
+		self.table.add_character(fields_in)
+		
+		# act
+		self.table.update_character(1, desc = "test")
+		
+		# assert
+		out = self.table.get_character(1)
+		self.assertEquals(out['description'], "test")

@@ -49,7 +49,6 @@ class CharacterTable:
 		
 	def get_character(self, id = -1):
 		if id is not -1:
-			
 			# Query for character.
 			# TODO(gus): why does sqlite3 throw an error when table name is a placeholder?
 			query = "SELECT " + ','.join([a['column_name'] for a in self.schema['columns']])\
@@ -72,3 +71,33 @@ class CharacterTable:
 			self._db.add_query( (query, tuple(fields.values()), return_list) )
 			while len(return_list) == 0: pass
 			return return_list
+			
+	def update_character(self, id, name = None, desc = None, owner = None):
+		new_vals = []
+		args = []
+		if name:
+			new_vals.append(self.NAME_COLUMN_KEY + " = ?")
+			args.append(name)
+		if desc:
+			new_vals.append(self.DESC_COLUMN_KEY + " = ?")
+			args.append(desc)
+		if owner:
+			new_vals.append(self.OWNER_COLUMN_KEY + " = ?")
+			args.append(owner)
+		
+		update = "UPDATE {} ".format(self.schema['name'])
+		set = "SET " + ", ".join(new_vals)
+		where = "WHERE " + self.ID_COLUMN_KEY + " = ? "
+		args.append(id)
+		
+		return_list = []
+		
+		self._db.add_query((update + set + where, tuple(args), return_list))
+		
+		while not len(return_list):
+			pass
+			
+		return return_list[0]
+		
+		
+		
