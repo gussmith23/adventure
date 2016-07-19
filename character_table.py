@@ -1,3 +1,5 @@
+from utils import Utils
+
 class CharacterTable:
 	NAME_COLUMN_KEY 	= 'name'
 	DESC_COLUMN_KEY		= 'description'
@@ -57,13 +59,8 @@ class CharacterTable:
 			self._db.add_query( (query, [id], return_list) )
 			while len(return_list) == 0: pass
 			
-			# Construct return dict.
-			raw_entry = return_list[0]
-			return_dict = {}
-			for counter, column in enumerate(self.schema['columns']):
-				return_dict[column['column_name']] = raw_entry[counter]
-			
-			return return_dict
+			raw_entry = return_list[0]			
+			return Utils.db_results_to_dict(self.schema['columns'], raw_entry)
 	
 	def add_character(self, fields = None, stats = None, inventory = None):
 		if fields is not None:
