@@ -44,7 +44,7 @@ class GameOwnerTable:
 	# This does not handle creating the owner/game beforehand.
 	def add_owner_to_game(self, game_id, owner_id):
 		query = "INSERT INTO " + self.schema['name'] \
-			+ " (" + OWNER_ID_COLUMN_KEY + "," + GAME_ID_COLUMN_KEY + ") "\
+			+ " (" + self.OWNER_ID_COLUMN_KEY + "," + self.GAME_ID_COLUMN_KEY + ") "\
 			+ "VALUES (?,?)"
 		return_list = []
 		self._db.add_query( (query, [owner_id,game_id], return_list) )
