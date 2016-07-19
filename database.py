@@ -16,7 +16,7 @@ from game_owner_table import GameOwnerTable
 
 class Database:
 
-	def __init__(self, db_path):
+	def __init__(self, db_path=":memory:"):
 	
 		# create table objects
 		self.tables = {
