@@ -10,10 +10,10 @@ class Character:
 	stats: a dictionary of stats, which are found via JOINing with the stat table.
 	inventory: not yet decided
 	"""
-	def init(self, fields = None, stats = None, inventory = None):
-		if fields:
-			self.fields = fields
-		if stats:
-			self.stats = stats
-		if inventory:
-			self.inventory = inventory
+	def __init__(self, name = "", description = "", owner = -1, id = -1, stats = None, inventory = None):
+		self.name = name
+		self.description = description
+		self._owner = owner
+		self._id = id
+		self.stats = stats
+		self.inventory = inventory
