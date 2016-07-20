@@ -47,30 +47,45 @@ class CharacterTable:
 	def __init__(self, db):
 		self._db = db
 		
+	# False if invalid id
+	# None if character not found
 	def get_character(self, id = -1):
-		if id is not -1:
-			# Query for character.
-			# TODO(gus): why does sqlite3 throw an error when table name is a placeholder?
-			query = "SELECT " + ','.join([a['column_name'] for a in self.schema['columns']])\
-				+ " FROM " + self.schema['name']\
-				+ " WHERE " + self.ID_COLUMN_KEY + "=? LIMIT 1"
-			return_list = []
-			self._db.add_query( (query, [id], return_list) )
-			while len(return_list) == 0: pass
+		if id <= 0: 
+			return False
 			
-			raw_entry = return_list[0]			
-			return Utils.db_results_to_dict(self.schema['columns'], raw_entry)
+		# Query for character.
+		# TODO(gus): why does sqlite3 throw an error when table name is a placeholder?
+		query = "SELECT " + ','.join([a['column_name'] for a in self.schema['columns']])\
+			+ " FROM " + self.schema['name']\
+			+ " WHERE " + self.ID_COLUMN_KEY + "=? LIMIT 1"
+		return_list = []
+		self._db.add_query( (query, [id], return_list) )
+		while len(return_list) == 0: pass
+		raw_entry = return_list[1]
+		
+		if not raw_entry:
+			return None
+		
+		return Utils.db_results_to_dict(self.schema['columns'], raw_entry)
 	
-	def add_character(self, fields = None, stats = None, inventory = None):
-		if fields is not None:
-			query = "INSERT INTO {} ({}) VALUES ({})"\
-				.format(self.schema['name'],
-					", ".join(fields.keys()),
-					("?,"* len(fields))[:-1])
-			return_list = []
-			self._db.add_query( (query, tuple(fields.values()), return_list) )
-			while len(return_list) == 0: pass
-			return return_list
+	# False for invalid input or error.
+	# Returns rowid of added character.
+	def add_character(self, fields):
+		if fields is None:
+			return False
+				
+		query = "INSERT INTO {} ({}) VALUES ({})"\
+			.format(self.schema['name'],
+				", ".join(fields.keys()),
+				("?,"* len(fields))[:-1])
+		return_list = []
+		self._db.add_query( (query, tuple(fields.values()), return_list) )
+		while len(return_list) == 0: pass
+		
+		if len(return_list) >= 2 and not return_list[1]:
+			return False
+			
+		return return_list[0]
 			
 	def update_character(self, id, name = None, desc = None, owner = None):
 		new_vals = []

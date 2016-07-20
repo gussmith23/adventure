@@ -15,9 +15,9 @@ class TestCharacterTable(unittest.TestCase):
 		fields_in = {'id' : 1, 'name' : 'gus', 'description' : 'lafefawefawef', 'owner_id' : 23}
 		
 		# act
-		self.table.add_character(fields_in)
+		returned = self.table.add_character(fields_in)
 		fields_out = self.table.get_character(1)
-		
+				
 		# assert
 		self.assertEqual(fields_in, fields_out)
 		
@@ -39,3 +39,20 @@ class TestCharacterTable(unittest.TestCase):
 		# assert
 		out = self.table.get_character(1)
 		self.assertEquals(out['description'], "test")
+		
+	def test_get_nonexistent_character_should_return_none(self):
+		# act
+		out = self.table.get_character(1)
+		
+		#assert
+		self.assertEquals(out, None)
+		
+	def test_get_invalid_id_should_return_none(self):
+		# act
+		outZero = self.table.get_character(0)
+		outNegative = self.table.get_character(-1)
+		
+		#assert
+		self.assertEquals(outZero, False)
+		self.assertEquals(outNegative, False)
+		

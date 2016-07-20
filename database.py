@@ -117,18 +117,24 @@ class Database:
 				except sqlite3.IntegrityError:
 					error = True				
 					
+			return_list = []
+			
 			# handle error case and exit if error 
 			if error:
-				query[2].extend([False])
+				return_list.extend([False])
+				query[2].extend(return_list)
 				self.q.task_done()
 				continue
 					
-			# if there's no return, we signal with "None"
+			# give the last rowid
+			return_list.extend([cur.lastrowid])
+			
 			all = cur.fetchall()
-			if (len(all) == 0): 
-				query[2].extend([None])
-			else:	
-				query[2].extend(all)
+			if not len(all):
+				return_list.extend([None])
+			return_list.extend(all)
+			
+			query[2].extend(return_list)
 				
 			# finally, commit.
 			self.conn.commit()
