@@ -47,6 +47,24 @@ class Database:
 	def add_query(self, query):
 		self.q.put(query)
 		
+	def query(self, query, args = ()):
+		"""Submit query and block until query completes.
+		
+		Returns a tuple in the following format:
+		(error, lastrowid, entries_list)
+		error - boolean indicating if the query resulted in an error.
+		lastrowid - the row id of the last inserted item. None if there is an error.
+		entries_list - the list of entries returned. None if there is an error.
+		"""
+		returned = []
+		self.q.put( (query, args, []) )
+		while not len(returned):
+			pass
+		if returned[0] is True:
+			return (True, returned[1], returned[2:])
+		else:
+			return (False, None, None)
+		
 	def worker(self,db_path):
 	
 		# open connection. this object should ONLY be touched
@@ -117,6 +135,7 @@ class Database:
 				except sqlite3.IntegrityError:
 					error = True				
 					
+			"""Output format: [error, lastrowid, entries...]"""
 			return_list = []
 			
 			# handle error case and exit if error 
@@ -125,6 +144,8 @@ class Database:
 				query[2].extend(return_list)
 				self.q.task_done()
 				continue
+			else:
+				return_list.extend([True])
 					
 			# give the last rowid
 			return_list.extend([cur.lastrowid])
