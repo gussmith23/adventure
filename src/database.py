@@ -57,13 +57,13 @@ class Database:
 		entries_list - the list of entries returned. None if there is an error.
 		"""
 		returned = []
-		self.q.put( (query, args, []) )
+		self.q.put( (query, args, returned) )
 		while not len(returned):
 			pass
 		if returned[0] is True:
-			return (True, returned[1], returned[2:])
+			return (True, returned[1], returned[2], returned[3:])
 		else:
-			return (False, None, None)
+			return (False, None, None, None)
 		
 	def worker(self,db_path):
 	
@@ -127,13 +127,13 @@ class Database:
 					cur.execute(query[0], query[1])
 				except sqlite3.IntegrityError:
 					error = True
-				
+			
 			# executing without arguments
 			else:
 				try:	
 					cur.execute(query[0])
 				except sqlite3.IntegrityError:
-					error = True				
+					error = True	
 					
 			"""Output format: [error, lastrowid, entries...]"""
 			return_list = []
@@ -149,11 +149,9 @@ class Database:
 					
 			# give the last rowid
 			return_list.extend([cur.lastrowid])
+			return_list.extend([cur.rowcount])
 			
-			all = cur.fetchall()
-			if not len(all):
-				return_list.extend([None])
-			return_list.extend(all)
+			return_list.extend(cur.fetchall())
 			
 			query[2].extend(return_list)
 				
