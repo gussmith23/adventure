@@ -47,26 +47,24 @@ class CharacterTable:
 	def __init__(self, db):
 		self._db = db
 		
-	# False if invalid id
+	# False if invalid id or db error.
 	# None if character not found
 	def get_character(self, id = -1):
 		if id <= 0: 
 			return False
 			
-		# Query for character.
 		# TODO(gus): why does sqlite3 throw an error when table name is a placeholder?
 		query = "SELECT " + ','.join([a['column_name'] for a in self.schema['columns']])\
 			+ " FROM " + self.schema['name']\
 			+ " WHERE " + self.ID_COLUMN_KEY + "=? LIMIT 1"
-		return_list = []
-		self._db.add_query( (query, [id], return_list) )
-		while len(return_list) == 0: pass
-		raw_entry = return_list[1]
+		success, unused, unused, entries = self._db.query(query, (id,))
 		
-		if not raw_entry:
+		if not success:
+			return False
+		if len(entries) == 0:
 			return None
-		
-		return Utils.db_results_to_dict(self.schema['columns'], raw_entry)
+		else:
+			return Utils.db_results_to_dict(self.schema['columns'], entries[0])
 	
 	# False for invalid input or error.
 	# Returns rowid of added character.
@@ -78,14 +76,12 @@ class CharacterTable:
 			.format(self.schema['name'],
 				", ".join(fields.keys()),
 				("?,"* len(fields))[:-1])
-		return_list = []
-		self._db.add_query( (query, tuple(fields.values()), return_list) )
-		while len(return_list) == 0: pass
+		success, lastrowid, unused, unused = self._db.query(query, tuple(fields.values()))
 		
-		if len(return_list) >= 2 and not return_list[1]:
+		if success:
+			return lastrowid
+		else:
 			return False
-			
-		return return_list[0]
 			
 	def update_character(self, id, name = None, desc = None, owner = None):
 		new_vals = []
@@ -100,19 +96,14 @@ class CharacterTable:
 			new_vals.append(self.OWNER_COLUMN_KEY + " = ?")
 			args.append(owner)
 		
-		update = "UPDATE {} ".format(self.schema['name'])
-		set = "SET " + ", ".join(new_vals)
-		where = "WHERE " + self.ID_COLUMN_KEY + " = ? "
+		update = "UPDATE OR FAIL {} ".format(self.schema['name'])
+		set = "SET {} ".format(", ".join(new_vals))
+		where = "WHERE {} = ? ".format(self.ID_COLUMN_KEY)
 		args.append(id)
+				
+		success, unused, rowcount, unused = self._db.query(update + set + where, tuple(args))
 		
-		return_list = []
-		
-		self._db.add_query((update + set + where, tuple(args), return_list))
-		
-		while not len(return_list):
-			pass
-			
-		return return_list[0]
+		return success and (rowcount > 0)
 		
 		
 		

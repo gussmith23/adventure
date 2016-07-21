@@ -1,6 +1,4 @@
 import unittest
-from unittest.mock import MagicMock
-from unittest.mock import Mock
 from database import Database
 from character_table import CharacterTable
 
@@ -23,7 +21,7 @@ class TestCharacterTable(unittest.TestCase):
 		
 	def test_update_character_not_exists(self):
 		# act
-		out = self.table.update_character(-100, desc = "blah")
+		out = self.table.update_character(100, desc = "blah")
 		
 		# assert
 		self.assertFalse(out)
