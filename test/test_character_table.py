@@ -1,12 +1,11 @@
 import unittest
 from database import Database
-from character_table import CharacterTable
 
 class TestCharacterTable(unittest.TestCase):
 	def setUp(self):
 		# TODO use mocks and just verify sql statements.
 		self.db = Database()
-		self.table = CharacterTable(self.db)
+		self.table = self.db.tables['character']
 	
 	def test_add_and_get_character(self):
 		# arrange
@@ -22,6 +21,22 @@ class TestCharacterTable(unittest.TestCase):
 	def test_update_character_not_exists(self):
 		# act
 		out = self.table.update_character(100, desc = "blah")
+		
+		# assert
+		self.assertFalse(out)
+	
+	def test_update_bad_id(self):
+		# act
+		zeroOut = self.table.update_character(0, desc = "blah")
+		negativeOut = self.table.update_character(-1, desc = "blah")
+	
+		# assert
+		self.assertFalse(zeroOut)
+		self.assertFalse(negativeOut)
+			
+	def test_update_no_data(self):
+		# act
+		out = self.table.update_character(1)
 		
 		# assert
 		self.assertFalse(out)
