@@ -127,13 +127,17 @@ class Database:
 					cur.execute(query[0], query[1])
 				except sqlite3.IntegrityError:
 					error = True
+				except sqlite3.OperationalError:
+					error = True
 			
 			# executing without arguments
 			else:
 				try:	
 					cur.execute(query[0])
 				except sqlite3.IntegrityError:
-					error = True	
+					error = True
+				except sqlite3.OperationalError:
+					error = True
 					
 			"""Output format: [error, lastrowid, entries...]"""
 			return_list = []

@@ -21,3 +21,13 @@ class TestDatabase(unittest.TestCase):
 		self.assertEqual(len(entries), 1)
 		self.assertEqual(entries[0], (1, "hi", 2, 0.5))
 		
+	def test_bad_syntax_returns_false(self):
+		# arrange
+		db = Database()
+		
+		# act
+		success, unused, unused, unused = db.query("Rosencrants")
+		
+		# assert
+		self.assertFalse(success)
+		
