@@ -15,7 +15,7 @@ class CharacterDao:
 		"""Return the Character with the given id.
 		
 		Returns None if the character was not found, either because the character
-		is not in the database or because of a database error.
+		is not in the persistence layer or because of a database error.
 		"""
 		if id in self.__characters:
 			return self.__characters[id]
@@ -28,7 +28,7 @@ class CharacterDao:
 		return character
 											
 	def add_character(self, character):
-		"""
+		"""Add character to persistence layer.
 		
 		Returns False if character's id is already set, implying the character
 		came from the database or was added to the database already.
