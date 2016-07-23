@@ -1,1 +1,2 @@
-# character_creator_bot
+# adventure
+an adventure game framework.
